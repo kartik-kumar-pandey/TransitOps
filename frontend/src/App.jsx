@@ -1,122 +1,99 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { MockDataProvider } from './context/MockDataContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { NotificationProvider } from './context/NotificationContext';
+
+// Components & Layouts
+import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/Layout';
+import NotificationToast from './components/NotificationToast';
+import PageTransition from './components/PageTransition';
+
+// Pages
+import Login from './pages/Login';
+import LandingPage from './pages/LandingPage';
+import Dashboard from './pages/Dashboard';
+import Vehicles from './pages/Vehicles';
+import Drivers from './pages/Drivers';
+import Trips from './pages/Trips';
+import Maintenance from './pages/Maintenance';
+import Expenses from './pages/Expenses';
+import Reports from './pages/Reports';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <ThemeProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <MockDataProvider>
+            <NotificationToast />
+            <Routes>
+              {/* Public */}
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<Login />} />
 
-      <div className="ticks"></div>
+              {/* Protected */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <PageTransition><Dashboard /></PageTransition>
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/vehicles" element={
+                <ProtectedRoute>
+                  <Layout>
+                    <PageTransition><Vehicles /></PageTransition>
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/drivers" element={
+                <ProtectedRoute allowedRoles={['fleet_manager','safety_officer']}>
+                  <Layout>
+                    <PageTransition><Drivers /></PageTransition>
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/trips" element={
+                <ProtectedRoute allowedRoles={['fleet_manager','driver']}>
+                  <Layout>
+                    <PageTransition><Trips /></PageTransition>
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/maintenance" element={
+                <ProtectedRoute allowedRoles={['fleet_manager']}>
+                  <Layout>
+                    <PageTransition><Maintenance /></PageTransition>
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/expenses" element={
+                <ProtectedRoute allowedRoles={['fleet_manager','financial_analyst','driver']}>
+                  <Layout>
+                    <PageTransition><Expenses /></PageTransition>
+                  </Layout>
+                </ProtectedRoute>
+              } />
+              <Route path="/reports" element={
+                <ProtectedRoute allowedRoles={['fleet_manager','financial_analyst']}>
+                  <Layout>
+                    <PageTransition><Reports /></PageTransition>
+                  </Layout>
+                </ProtectedRoute>
+              } />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </MockDataProvider>
+        </AuthProvider>
+      </NotificationProvider>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
+
+
