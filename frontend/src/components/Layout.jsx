@@ -75,13 +75,15 @@ export default function Layout({ children }) {
               <Link
                 key={item.path}
                 to={item.path}
-                style={{ animationDelay: `${i * 40}ms` }}
+                style={{
+                  animationDelay: `${i * 40}ms`,
+                  color: isActive ? undefined : 'var(--text-secondary)'
+                }}
                 className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group text-sm font-medium animate-slide-left ${
                   isActive
                     ? 'bg-blue-600/20 text-blue-400 border-l-4 border-blue-500 pl-3'
                     : 'hover:bg-white/5'
                 }`}
-                style={{ color: isActive ? undefined : 'var(--text-secondary)' }}
               >
                 <Icon className={`h-5 w-5 mr-3 transition-colors ${isActive ? 'text-blue-400' : ''}`} />
                 {item.label}
@@ -161,5 +163,3 @@ export default function Layout({ children }) {
     </div>
   );
 }
-
-
