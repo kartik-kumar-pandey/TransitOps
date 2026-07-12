@@ -25,10 +25,10 @@ const CONFIG = {
   },
   info: {
     icon: Info,
-    bar: 'bg-violet-500',
-    icon_color: 'text-violet-400',
-    bg: 'bg-violet-500/10 border-violet-500/20',
-    glow: 'shadow-violet-500/10',
+    bar: 'bg-blue-500',
+    icon_color: 'text-blue-400',
+    bg: 'bg-blue-500/10 border-blue-500/20',
+    glow: 'shadow-blue-500/10',
   },
 };
 
@@ -80,3 +80,5 @@ export default function NotificationToast() {
     </div>
   );
 }
+
+

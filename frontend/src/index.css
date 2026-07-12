@@ -12,35 +12,35 @@
 /* ─── DARK MODE (default) ──────────────────────────────────── */
 :root {
   color-scheme: dark;
-  --bg-base: #070b13;
-  --bg-surface: rgba(17, 24, 39, 0.7);
-  --bg-card: rgba(30, 41, 59, 0.4);
-  --bg-input: rgba(15, 23, 42, 0.9);
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #475569;
-  --border-color: rgba(255,255,255,0.06);
-  --border-subtle: #1e293b;
-  --scrollbar-track: #0b0f19;
-  --scrollbar-thumb: #1e293b;
-  --scrollbar-thumb-hover: #334155;
+  --bg-base: #08090d;
+  --bg-surface: #0f111a;
+  --bg-card: #131622;
+  --bg-input: #0f111a;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border-color: #1f2436;
+  --border-subtle: #1f2436;
+  --scrollbar-track: #08090d;
+  --scrollbar-thumb: #1f2436;
+  --scrollbar-thumb-hover: #3b82f6;
 }
 
 /* ─── LIGHT MODE ───────────────────────────────────────────── */
 :root.light {
   color-scheme: light;
-  --bg-base: #f8fafc;
-  --bg-surface: rgba(255,255,255,0.85);
-  --bg-card: rgba(241,245,249,0.7);
+  --bg-base: #f9fafb;
+  --bg-surface: #f3f4f6;
+  --bg-card: #ffffff;
   --bg-input: #ffffff;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
-  --border-color: rgba(0,0,0,0.07);
-  --border-subtle: #e2e8f0;
-  --scrollbar-track: #f1f5f9;
-  --scrollbar-thumb: #cbd5e1;
-  --scrollbar-thumb-hover: #94a3b8;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --border-color: #e5e7eb;
+  --border-subtle: #e5e7eb;
+  --scrollbar-track: #f9fafb;
+  --scrollbar-thumb: #e5e7eb;
+  --scrollbar-thumb-hover: #2563eb;
 }
 
 body {
@@ -100,8 +100,8 @@ body {
   100% { background-position: 200% 0; }
 }
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(139,92,246,0.4); }
-  50%       { box-shadow: 0 0 16px 4px rgba(139,92,246,0.2); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.4); }
+  50%       { box-shadow: 0 0 16px 4px rgba(59,130,246,0.2); }
 }
 @keyframes countUp {
   from { opacity: 0; transform: translateY(8px); }
@@ -188,3 +188,5 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(0,0,0,0.25);
 }
+
+

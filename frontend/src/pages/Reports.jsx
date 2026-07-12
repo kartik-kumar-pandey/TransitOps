@@ -184,7 +184,7 @@ export default function Reports() {
       {/* AI Fleet Insights Section (Wow Feature) */}
       <div className="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4 relative overflow-hidden">
         <div className="flex items-center space-x-2">
-          <div className="p-1.5 bg-violet-600 rounded-lg text-white">
+          <div className="p-1.5 bg-blue-600 rounded-lg text-white">
             <Sparkles className="h-4 w-4" />
           </div>
           <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider">AI Fleet Analyst Insights</h3>
@@ -201,11 +201,11 @@ export default function Reports() {
             value={aiQuery}
             onChange={(e) => setAiQuery(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAISearch()}
-            className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-violet-500 placeholder-slate-600"
+            className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-xs text-slate-200 focus:outline-none focus:border-blue-500 placeholder-slate-600"
           />
           <button
             onClick={() => handleAISearch()}
-            className="p-3 bg-violet-650 hover:bg-violet-600 rounded-xl text-white shadow-lg transition-colors"
+            className="p-3 bg-violet-650 hover:bg-blue-600 rounded-xl text-white shadow-lg transition-colors"
           >
             <Send className="h-4 w-4" />
           </button>
@@ -226,12 +226,12 @@ export default function Reports() {
 
         {/* AI Answer Box */}
         {(isAiLoading || aiResponse) && (
-          <div className="p-4 bg-violet-500/5 border border-violet-500/10 rounded-xl space-y-2 mt-4 animate-fade-in">
+          <div className="p-4 bg-blue-500/5 border border-blue-500/10 rounded-xl space-y-2 mt-4 animate-fade-in">
             {isAiLoading ? (
-              <div className="flex items-center space-x-2 text-xs text-violet-400">
-                <span className="h-2 w-2 bg-violet-400 rounded-full animate-bounce"></span>
-                <span className="h-2 w-2 bg-violet-400 rounded-full animate-bounce delay-100"></span>
-                <span className="h-2 w-2 bg-violet-400 rounded-full animate-bounce delay-200"></span>
+              <div className="flex items-center space-x-2 text-xs text-blue-400">
+                <span className="h-2 w-2 bg-blue-400 rounded-full animate-bounce"></span>
+                <span className="h-2 w-2 bg-blue-400 rounded-full animate-bounce delay-100"></span>
+                <span className="h-2 w-2 bg-blue-400 rounded-full animate-bounce delay-200"></span>
                 <span>Analyst is scanning fleet ledgers...</span>
               </div>
             ) : (
@@ -338,3 +338,5 @@ export default function Reports() {
     </div>
   );
 }
+
+

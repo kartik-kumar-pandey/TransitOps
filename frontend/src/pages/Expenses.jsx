@@ -120,7 +120,7 @@ export default function Expenses() {
               setError('');
               setIsFuelOpen(true);
             }}
-            className="flex-1 md:flex-none flex items-center justify-center px-4 py-2.5 bg-violet-600 hover:bg-violet-505 text-white font-semibold text-xs rounded-xl shadow-lg shadow-violet-600/20"
+            className="flex-1 md:flex-none flex items-center justify-center px-4 py-2.5 bg-blue-600 hover:bg-violet-505 text-white font-semibold text-xs rounded-xl shadow-lg shadow-blue-600/20"
           >
             <Droplets className="h-4 w-4 mr-1.5" />
             Log Fuel Fill
@@ -141,7 +141,7 @@ export default function Expenses() {
       {/* Operational Costs rollup per vehicle */}
       <div className="space-y-4">
         <h3 className="text-md font-bold text-slate-200 flex items-center">
-          <Landmark className="h-5 w-5 mr-2 text-violet-400" />
+          <Landmark className="h-5 w-5 mr-2 text-blue-400" />
           Vehicle Cumulative Operational Costs
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -163,7 +163,7 @@ export default function Expenses() {
               </div>
               <div className="flex justify-between items-baseline">
                 <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Total Operational:</span>
-                <span className="text-xl font-black text-violet-400">${v.totalOpCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span className="text-xl font-black text-blue-400">${v.totalOpCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
               </div>
             </div>
           ))}
@@ -205,7 +205,7 @@ export default function Expenses() {
                             className={`text-[9px] font-bold px-2 py-0.5 rounded-full border uppercase tracking-wider ${
                               e.type === 'Toll'
                                 ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
-                                : 'bg-violet-500/10 text-violet-400 border-violet-500/20'
+                                : 'bg-blue-500/10 text-blue-400 border-blue-500/20'
                             }`}
                           >
                             {e.type}
@@ -234,7 +234,7 @@ export default function Expenses() {
           <div className="w-full max-w-md glass-panel p-6 rounded-2xl border border-slate-850 shadow-2xl space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-slate-800">
               <h3 className="text-md font-bold text-slate-100 flex items-center">
-                <Droplets className="h-5 w-5 mr-2 text-violet-400" />
+                <Droplets className="h-5 w-5 mr-2 text-blue-400" />
                 Record Fuel Purchase
               </h3>
               <button onClick={() => setIsFuelOpen(false)} className="text-slate-500 hover:text-slate-350">
@@ -324,7 +324,7 @@ export default function Expenses() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-violet-600 hover:bg-violet-505 rounded-xl text-xs font-semibold text-white shadow-lg shadow-violet-600/20"
+                  className="px-4 py-2 bg-blue-600 hover:bg-violet-505 rounded-xl text-xs font-semibold text-white shadow-lg shadow-blue-600/20"
                 >
                   Log Purchase
                 </button>
@@ -340,7 +340,7 @@ export default function Expenses() {
           <div className="w-full max-w-md glass-panel p-6 rounded-2xl border border-slate-855 shadow-2xl space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-slate-800">
               <h3 className="text-md font-bold text-slate-100 flex items-center">
-                <CircleDollarSign className="h-5 w-5 mr-2 text-violet-400" />
+                <CircleDollarSign className="h-5 w-5 mr-2 text-blue-400" />
                 Record General Expense
               </h3>
               <button onClick={() => setIsExpenseOpen(false)} className="text-slate-500 hover:text-slate-350">
@@ -443,7 +443,7 @@ export default function Expenses() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-violet-600 hover:bg-violet-505 rounded-xl text-xs font-semibold text-white shadow-lg shadow-violet-600/20"
+                  className="px-4 py-2 bg-blue-600 hover:bg-violet-505 rounded-xl text-xs font-semibold text-white shadow-lg shadow-blue-600/20"
                 >
                   Save Transaction
                 </button>
@@ -455,3 +455,5 @@ export default function Expenses() {
     </div>
   );
 }
+
+

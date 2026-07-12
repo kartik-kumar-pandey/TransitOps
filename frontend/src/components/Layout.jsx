@@ -28,7 +28,7 @@ export default function Layout({ children }) {
   const visibleNavItems = navItems.filter(item => item.roles.includes(user?.role));
 
   const roleColors = {
-    fleet_manager:     'bg-violet-500/10 text-violet-400 border-violet-500/20',
+    fleet_manager:     'bg-blue-500/10 text-blue-400 border-blue-500/20',
     driver:            'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
     safety_officer:    'bg-rose-500/10 text-rose-400 border-rose-500/20',
     financial_analyst: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
@@ -53,11 +53,11 @@ export default function Layout({ children }) {
       >
         {/* Logo */}
         <div className="p-6 border-b flex items-center space-x-3" style={{ borderColor: 'var(--border-subtle)' }}>
-          <div className="p-2 bg-violet-600 rounded-lg text-white shadow-lg shadow-violet-600/30 animate-pulse-glow">
+          <div className="p-2 bg-blue-600 rounded-lg text-white shadow-lg shadow-blue-600/30 animate-pulse-glow">
             <Truck className="h-6 w-6" />
           </div>
           <div>
-            <h1 className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
+            <h1 className="font-display font-extrabold text-xl tracking-tight bg-gradient-to-r from-blue-400 to-sky-400 bg-clip-text text-transparent">
               TransitOps
             </h1>
             <p className="text-[10px] opacity-40 font-medium uppercase tracking-widest -mt-1">
@@ -81,11 +81,11 @@ export default function Layout({ children }) {
                 }}
                 className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group text-sm font-medium animate-slide-left ${
                   isActive
-                    ? 'bg-violet-600/20 text-violet-400 border-l-4 border-violet-500 pl-3'
+                    ? 'bg-blue-600/20 text-blue-400 border-l-4 border-blue-500 pl-3'
                     : 'hover:bg-white/5'
                 }`}
               >
-                <Icon className={`h-5 w-5 mr-3 transition-colors ${isActive ? 'text-violet-400' : ''}`} />
+                <Icon className={`h-5 w-5 mr-3 transition-colors ${isActive ? 'text-blue-400' : ''}`} />
                 {item.label}
               </Link>
             );
@@ -125,7 +125,7 @@ export default function Layout({ children }) {
         <header
           className="h-16 border-b flex items-center justify-between px-8 sticky top-0 z-10 backdrop-blur-md"
           style={{
-            backgroundColor: isDark ? 'rgba(7,11,19,0.85)' : 'rgba(248,250,252,0.85)',
+            backgroundColor: isDark ? 'rgba(8,9,13,0.88)' : 'rgba(249,250,251,0.88)',
             borderColor: 'var(--border-subtle)',
           }}
         >
@@ -149,7 +149,7 @@ export default function Layout({ children }) {
             >
               {isDark
                 ? <Sun className="h-4 w-4 text-amber-400" />
-                : <Moon className="h-4 w-4 text-indigo-500" />
+                : <Moon className="h-4 w-4 text-sky-500" />
               }
             </button>
           </div>
@@ -163,3 +163,5 @@ export default function Layout({ children }) {
     </div>
   );
 }
+
+

@@ -139,7 +139,7 @@ export default function Drivers() {
             </button>
             <button
               onClick={openAddModal}
-              className="flex items-center px-4 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-violet-600/20 hover:shadow-violet-600/30 transition-all duration-200 animate-pulse-glow"
+              className="flex items-center px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition-all duration-200 animate-pulse-glow"
             >
               <Plus className="h-4 w-4 mr-1.5" />
               Add New Driver
@@ -228,7 +228,7 @@ export default function Drivers() {
             placeholder="Search Driver Name or License Number..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-slate-955 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-violet-500"
+            className="w-full bg-slate-955 border border-slate-800 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500"
           />
         </div>
 
@@ -236,7 +236,7 @@ export default function Drivers() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full bg-slate-955 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-violet-500"
+            className="w-full bg-slate-955 border border-slate-800 rounded-xl px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-blue-500"
           >
             <option value="All">All Statuses</option>
             <option value="Available">Available</option>
@@ -314,7 +314,7 @@ export default function Drivers() {
                             d.status === 'Available'
                               ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
                               : d.status === 'On Trip'
-                              ? 'bg-violet-500/10 text-violet-400 border-violet-500/20'
+                              ? 'bg-blue-500/10 text-blue-400 border-blue-500/20'
                               : d.status === 'Suspended'
                               ? 'bg-red-500/10 text-red-400 border-red-500/20'
                               : 'bg-slate-800 text-slate-400 border-slate-700'
@@ -328,7 +328,7 @@ export default function Drivers() {
                           <button
                             onClick={() => openEditModal(d)}
                             disabled={d.status === 'On Trip'}
-                            className="p-1.5 bg-slate-800 hover:bg-violet-600/30 hover:text-violet-400 border border-slate-700 hover:border-violet-500/20 rounded-lg text-slate-400 transition-colors disabled:opacity-30 disabled:hover:bg-slate-800"
+                            className="p-1.5 bg-slate-800 hover:bg-blue-600/30 hover:text-blue-400 border border-slate-700 hover:border-blue-500/20 rounded-lg text-slate-400 transition-colors disabled:opacity-30 disabled:hover:bg-slate-800"
                             title={d.status === 'On Trip' ? 'Cannot edit driver on trip' : 'Edit profile'}
                           >
                             <Edit2 className="h-3.5 w-3.5" />
@@ -487,7 +487,7 @@ export default function Drivers() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-violet-600 hover:bg-violet-500 rounded-xl text-xs font-semibold text-white shadow-lg shadow-violet-600/20"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold text-white shadow-lg shadow-blue-600/20"
                 >
                   Save Profile
                 </button>
@@ -499,3 +499,5 @@ export default function Drivers() {
     </div>
   );
 }
+
+

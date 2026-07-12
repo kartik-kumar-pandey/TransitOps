@@ -11,7 +11,7 @@ import NotificationToast from './components/NotificationToast';
 import PageTransition from './components/PageTransition';
 
 // Pages
-import Landing from './pages/Landing';
+import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
@@ -30,7 +30,7 @@ function App() {
             <NotificationToast />
             <Routes>
               {/* Public */}
-              <Route path="/" element={<Landing />} />
+              <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
 
               {/* Protected */}
@@ -85,7 +85,7 @@ function App() {
               } />
 
               {/* Fallback */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>
           </MockDataProvider>
         </AuthProvider>
@@ -95,3 +95,5 @@ function App() {
 }
 
 export default App;
+
+

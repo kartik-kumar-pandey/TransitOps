@@ -83,7 +83,7 @@ export default function Maintenance() {
             setError('');
             setIsCreateOpen(true);
           }}
-          className="flex items-center px-4 py-2.5 bg-violet-600 hover:bg-violet-505 text-white font-semibold text-xs rounded-xl shadow-lg shadow-violet-600/20"
+          className="flex items-center px-4 py-2.5 bg-blue-600 hover:bg-violet-505 text-white font-semibold text-xs rounded-xl shadow-lg shadow-blue-600/20"
         >
           <Plus className="h-4 w-4 mr-1.5" />
           Create Maintenance Log
@@ -112,7 +112,7 @@ export default function Maintenance() {
                   const vehicle = vehicles.find((v) => v.id === l.vehicleId);
                   return (
                     <tr key={l.id} className="hover:bg-slate-900/20 transition-colors">
-                      <td className="px-6 py-4 font-mono font-bold text-violet-400">{l.id.toUpperCase()}</td>
+                      <td className="px-6 py-4 font-mono font-bold text-blue-400">{l.id.toUpperCase()}</td>
                       <td className="px-6 py-4 font-semibold text-slate-200">
                         {vehicle ? vehicle.nameModel : 'Unknown Vehicle'}
                       </td>
@@ -169,7 +169,7 @@ export default function Maintenance() {
           <div className="w-full max-w-md glass-panel p-6 rounded-2xl border border-slate-850 shadow-2xl space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-slate-800">
               <h3 className="text-md font-bold text-slate-100 flex items-center">
-                <Wrench className="h-5 w-5 mr-2 text-violet-400" />
+                <Wrench className="h-5 w-5 mr-2 text-blue-400" />
                 Schedule Maintenance
               </h3>
               <button onClick={() => setIsCreateOpen(false)} className="text-slate-500 hover:text-slate-300">
@@ -242,7 +242,7 @@ export default function Maintenance() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-violet-600 hover:bg-violet-500 rounded-xl text-xs font-semibold text-white shadow-lg shadow-violet-600/20"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-xl text-xs font-semibold text-white shadow-lg shadow-blue-600/20"
                 >
                   Save Log & Pull Vehicle
                 </button>
@@ -258,7 +258,7 @@ export default function Maintenance() {
           <div className="w-full max-w-md glass-panel p-6 rounded-2xl border border-slate-855 shadow-2xl space-y-4">
             <div className="flex justify-between items-center pb-2 border-b border-slate-800">
               <h3 className="text-md font-bold text-slate-100 flex items-center">
-                <Check className="h-5 w-5 mr-2 text-violet-400" />
+                <Check className="h-5 w-5 mr-2 text-blue-400" />
                 Close Resolved Log
               </h3>
               <button onClick={() => setIsCloseOpen(false)} className="text-slate-500 hover:text-slate-350">
@@ -310,3 +310,5 @@ export default function Maintenance() {
     </div>
   );
 }
+
+

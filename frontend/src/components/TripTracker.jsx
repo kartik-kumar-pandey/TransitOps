@@ -50,8 +50,8 @@ export default function TripTracker() {
     return (
       <div className="glass-panel rounded-2xl border p-12 flex flex-col items-center justify-center text-center"
         style={{ borderColor: 'var(--border-subtle)' }}>
-        <div className="p-4 rounded-2xl bg-violet-500/10 mb-4">
-          <Navigation className="h-10 w-10 text-violet-400 animate-bounce-gentle" />
+        <div className="p-4 rounded-2xl bg-blue-500/10 mb-4">
+          <Navigation className="h-10 w-10 text-blue-400 animate-bounce-gentle" />
         </div>
         <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>No Active Trips</p>
         <p className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
@@ -83,12 +83,12 @@ export default function TripTracker() {
             {/* Header row */}
             <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-violet-600/20 rounded-lg">
-                  <Navigation className="h-5 w-5 text-violet-400" />
+                <div className="p-2 bg-blue-600/20 rounded-lg">
+                  <Navigation className="h-5 w-5 text-blue-400" />
                 </div>
                 <div>
                   <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
-                    {trip.source} <span className="text-violet-400 mx-1">→</span> {trip.destination}
+                    {trip.source} <span className="text-blue-400 mx-1">→</span> {trip.destination}
                   </p>
                   <p className="text-[10px] font-mono" style={{ color: 'var(--text-muted)' }}>
                     {trip.id.toUpperCase()} • {trip.cargoWeight} kg cargo
@@ -107,8 +107,8 @@ export default function TripTracker() {
             <div className="px-6 pt-4 pb-2">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center space-x-1.5">
-                  <div className="h-2 w-2 rounded-full bg-violet-500 animate-pulse" />
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-violet-400">
+                  <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse" />
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-400">
                     {completed ? 'Arrived at destination' : 'En Route'}
                   </span>
                 </div>
@@ -153,7 +153,7 @@ export default function TripTracker() {
             {/* Vehicle + Driver row */}
             <div className="px-6 py-3 grid grid-cols-2 gap-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
               <div className="flex items-center space-x-2">
-                <Truck className="h-4 w-4 text-violet-400" />
+                <Truck className="h-4 w-4 text-blue-400" />
                 <div>
                   <p className="text-[10px] font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Vehicle</p>
                   <p className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>
@@ -177,3 +177,5 @@ export default function TripTracker() {
     </div>
   );
 }
+
+

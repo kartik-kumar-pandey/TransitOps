@@ -106,13 +106,13 @@ export default function CsvImport({ columns, onImport, entityName, sampleCsv }) 
     <div className="space-y-4">
       {/* Upload Area */}
       <div
-        className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 hover:border-violet-500/50 hover:bg-violet-500/5"
+        className="border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 hover:border-blue-500/50 hover:bg-blue-500/5"
         style={{ borderColor: 'var(--border-subtle)' }}
         onClick={() => fileRef.current?.click()}
       >
         <input ref={fileRef} type="file" accept=".csv" className="hidden" onChange={handleFile} />
-        <div className="p-3 bg-violet-500/10 rounded-xl mb-3">
-          <Upload className="h-6 w-6 text-violet-400" />
+        <div className="p-3 bg-blue-500/10 rounded-xl mb-3">
+          <Upload className="h-6 w-6 text-blue-400" />
         </div>
         <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
           {fileName || `Drop a ${entityName} CSV file here`}
@@ -123,7 +123,7 @@ export default function CsvImport({ columns, onImport, entityName, sampleCsv }) 
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); downloadSample(); }}
-          className="mt-3 flex items-center text-[10px] font-bold text-violet-400 bg-violet-500/10 border border-violet-500/20 px-3 py-1.5 rounded-lg hover:bg-violet-500/20 transition-colors"
+          className="mt-3 flex items-center text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-3 py-1.5 rounded-lg hover:bg-blue-500/20 transition-colors"
         >
           <Download className="h-3 w-3 mr-1" />
           Download Sample CSV
@@ -146,7 +146,7 @@ export default function CsvImport({ columns, onImport, entityName, sampleCsv }) 
         <div className="space-y-3 animate-slide-up">
           <div className="flex justify-between items-center">
             <p className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>
-              Preview: <span className="text-violet-400">{validRows.length}</span> valid,{' '}
+              Preview: <span className="text-blue-400">{validRows.length}</span> valid,{' '}
               <span className="text-red-400">{rows.length - validRows.length}</span> errors
             </p>
             <div className="flex items-center space-x-2">
@@ -156,7 +156,7 @@ export default function CsvImport({ columns, onImport, entityName, sampleCsv }) 
               <button
                 onClick={handleImport}
                 disabled={validRows.length === 0}
-                className="px-3 py-1.5 bg-violet-600 hover:bg-violet-500 text-white text-[10px] font-bold rounded-lg disabled:opacity-40 transition-colors"
+                className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-bold rounded-lg disabled:opacity-40 transition-colors"
               >
                 Import {validRows.length} {entityName}(s)
               </button>
@@ -208,3 +208,5 @@ export default function CsvImport({ columns, onImport, entityName, sampleCsv }) 
     </div>
   );
 }
+
+

@@ -33,13 +33,13 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b13] flex flex-col justify-center items-center p-6 text-slate-100 font-sans">
+    <div className="min-h-screen bg-[#08090d] flex flex-col justify-center items-center p-6 text-slate-100 font-sans">
       <div className="w-full max-w-md glass-panel p-8 rounded-2xl shadow-2xl border border-slate-800 flex flex-col items-center">
         {/* Logo */}
-        <div className="p-3 bg-violet-600 rounded-2xl text-white shadow-xl shadow-violet-600/30 mb-4">
+        <div className="p-3 bg-blue-600 rounded-2xl text-white shadow-xl shadow-blue-600/30 mb-4">
           <Truck className="h-8 w-8" />
         </div>
-        <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent mb-1">
+        <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 to-sky-400 bg-clip-text text-transparent mb-1 font-display">
           TransitOps
         </h1>
         <p className="text-slate-400 text-sm mb-6 text-center">
@@ -64,7 +64,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="e.g. admin@transitops.com"
               required
-              className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-violet-500 transition-colors"
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
 
@@ -78,13 +78,13 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-violet-500 transition-colors"
+              className="w-full bg-slate-900/60 border border-slate-800 rounded-xl px-4 py-3 text-sm text-slate-200 placeholder-slate-600 focus:outline-none focus:border-blue-500 transition-colors"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-violet-600 hover:bg-violet-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-violet-600/20 hover:shadow-violet-600/30 transition-all duration-200 text-sm mt-2"
+            className="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 transition-all duration-200 text-sm mt-2 cursor-pointer active:scale-95"
           >
             Sign In
           </button>
@@ -100,7 +100,7 @@ export default function Login() {
               <button
                 key={mu.id}
                 onClick={() => handleQuickLogin(mu.email)}
-                className="flex flex-col items-center justify-center p-2.5 bg-slate-900/40 border border-slate-800/80 rounded-xl text-center hover:bg-slate-800/50 hover:border-slate-700 transition-all duration-200"
+                className="flex flex-col items-center justify-center p-2.5 bg-slate-900/40 border border-slate-800/80 rounded-xl text-center hover:bg-slate-800/50 hover:border-slate-700 transition-all duration-200 cursor-pointer"
               >
                 <span className="text-xs font-bold text-slate-200 truncate max-w-full">
                   {mu.name.split(' ')[0]}
@@ -116,3 +116,5 @@ export default function Login() {
     </div>
   );
 }
+
+
