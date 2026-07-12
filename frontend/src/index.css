@@ -2,6 +2,7 @@
 
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif;
   --color-brand-50: #f5f3ff;
   --color-brand-100: #ede9fe;
   --color-brand-500: #8b5cf6;
@@ -12,35 +13,97 @@
 /* ─── DARK MODE (default) ──────────────────────────────────── */
 :root {
   color-scheme: dark;
-  --bg-base: #08090d;
-  --bg-surface: #0f111a;
-  --bg-card: #131622;
-  --bg-input: #0f111a;
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-  --border-color: #1f2436;
-  --border-subtle: #1f2436;
-  --scrollbar-track: #08090d;
-  --scrollbar-thumb: #1f2436;
-  --scrollbar-thumb-hover: #3b82f6;
+
+  /* Backgrounds */
+  --bg-base:      #08090d;
+  --bg-surface:   #0f111a;
+  --bg-card:      #131622;
+  --bg-card-alt:  #0f1119;
+  --bg-input:     #0b0d15;
+  --bg-hover:     rgba(255,255,255,0.04);
+  --bg-overlay:   rgba(8,9,13,0.85);
+  --bg-modal:     #131622;
+
+  /* Text */
+  --text-primary:   #f1f3f9;
+  --text-secondary: #94a3b8;
+  --text-muted:     #64748b;
+  --text-label:     #475569;
+  --text-heading:   #f8fafc;
+
+  /* Borders */
+  --border-color:  #1e2337;
+  --border-subtle: #1e2337;
+  --border-strong: #2d3555;
+  --border-focus:  #3b82f6;
+
+  /* Scrollbar */
+  --scrollbar-track:      #08090d;
+  --scrollbar-thumb:      #1e2337;
+  --scrollbar-thumb-hover:#3b82f6;
+
+  /* Shadows */
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-modal: 0 20px 60px rgba(0,0,0,0.7);
+
+  /* Table */
+  --table-header-bg: #0d0f1a;
+  --table-row-hover: rgba(255,255,255,0.03);
+  --table-border:    #1e2337;
 }
 
 /* ─── LIGHT MODE ───────────────────────────────────────────── */
 :root.light {
   color-scheme: light;
-  --bg-base: #f9fafb;
-  --bg-surface: #f3f4f6;
-  --bg-card: #ffffff;
-  --bg-input: #ffffff;
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
-  --border-color: #e5e7eb;
-  --border-subtle: #e5e7eb;
-  --scrollbar-track: #f9fafb;
-  --scrollbar-thumb: #e5e7eb;
-  --scrollbar-thumb-hover: #2563eb;
+
+  /* Backgrounds */
+  --bg-base:      #f0f4f8;
+  --bg-surface:   #ffffff;
+  --bg-card:      #ffffff;
+  --bg-card-alt:  #f7f9fc;
+  --bg-input:     #ffffff;
+  --bg-hover:     rgba(0,0,0,0.04);
+  --bg-overlay:   rgba(240,244,248,0.85);
+  --bg-modal:     #ffffff;
+
+  /* Text */
+  --text-primary:   #0f172a;
+  --text-secondary: #475569;
+  --text-muted:     #94a3b8;
+  --text-label:     #64748b;
+  --text-heading:   #0f172a;
+
+  /* Borders */
+  --border-color:  #e2e8f0;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-focus:  #2563eb;
+
+  /* Scrollbar */
+  --scrollbar-track:      #f0f4f8;
+  --scrollbar-thumb:      #cbd5e1;
+  --scrollbar-thumb-hover:#2563eb;
+
+  /* Shadows */
+  --shadow-card:  0 2px 12px rgba(15,23,42,0.08);
+  --shadow-modal: 0 16px 48px rgba(15,23,42,0.18);
+
+  /* Table */
+  --table-header-bg: #f7f9fc;
+  --table-row-hover: rgba(0,0,0,0.025);
+  --table-border:    #e2e8f0;
+}
+
+/* ─── BASE STYLES ───────────────────────────────────────────── */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+  box-sizing: border-box;
+}
+/* but don't animate transforms/opacity for animation classes */
+.animate-slide-up, .animate-slide-left, .animate-fade-in, .animate-scale-in {
+  transition: none;
 }
 
 body {
@@ -49,7 +112,6 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ─── SCROLLBAR ────────────────────────────────────────────── */
@@ -58,20 +120,213 @@ body {
 ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
 
-/* ─── GLASSMORPHISM ────────────────────────────────────────── */
+/* ─── GLASS / SURFACE PANELS ────────────────────────────────── */
 .glass-panel {
   background: var(--bg-surface);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border-color);
-  transition: background 0.3s ease, border 0.3s ease;
 }
 .glass-card {
   background: var(--bg-card);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
-  transition: background 0.3s ease;
+}
+
+/* ─── ADAPTIVE COMPONENT TOKENS ─────────────────────────────── */
+/*
+  These classes map semantic Tailwind classes to theme-aware CSS vars.
+  Use these instead of hardcoded slate-* values on UI components.
+*/
+
+/* Cards & Panels */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-card);
+}
+.card-alt {
+  background: var(--bg-card-alt);
+  border: 1px solid var(--border-color);
+}
+
+/* Form inputs */
+.input-base {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+.input-base::placeholder {
+  color: var(--text-label);
+}
+.input-base:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+.select-base {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+.select-base:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+/* Tables */
+.table-header {
+  background: var(--table-header-bg);
+  border-bottom: 1px solid var(--table-border);
+  color: var(--text-muted);
+}
+.table-row {
+  border-bottom: 1px solid var(--table-border);
+  color: var(--text-secondary);
+}
+.table-row:hover {
+  background: var(--table-row-hover);
+}
+
+/* Modals */
+.modal-overlay {
+  background: var(--bg-overlay);
+}
+.modal-panel {
+  background: var(--bg-modal);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-modal);
+}
+
+/* ─── LIGHT MODE OVERRIDES FOR TAILWIND CLASSES ──────────────
+   These rules fire only in light mode to correct the dark-first
+   Tailwind hardcoded classes used throughout the components.
+────────────────────────────────────────────────────────────── */
+
+/* Background overrides */
+:root.light .bg-slate-950,
+:root.light .bg-slate-900\/40,
+:root.light .bg-slate-900\/60,
+:root.light .bg-slate-900\/80,
+:root.light .from-slate-950,
+:root.light .to-slate-950 {
+  --tw-gradient-from: transparent;
+  --tw-gradient-to: transparent;
+  background-color: transparent !important;
+}
+
+:root.light .bg-slate-900,
+:root.light .from-slate-900,
+:root.light .to-slate-900 {
+  --tw-gradient-from: var(--bg-card-alt);
+  --tw-gradient-to: var(--bg-card-alt);
+  background-color: var(--bg-card-alt) !important;
+}
+
+:root.light .bg-slate-800,
+:root.light .bg-slate-800\/40,
+:root.light .bg-slate-800\/60,
+:root.light .bg-slate-800\/80 {
+  background-color: var(--border-subtle) !important;
+}
+
+/* Text overrides */
+:root.light .text-white {
+  color: var(--text-heading) !important;
+}
+:root.light .text-slate-100,
+:root.light .text-slate-200 {
+  color: var(--text-primary) !important;
+}
+:root.light .text-slate-300,
+:root.light .text-slate-400 {
+  color: var(--text-secondary) !important;
+}
+:root.light .text-slate-500,
+:root.light .text-slate-600 {
+  color: var(--text-muted) !important;
+}
+
+/* Border overrides */
+:root.light .border-slate-800,
+:root.light .border-slate-800\/60,
+:root.light .border-slate-800\/80,
+:root.light .border-slate-900 {
+  border-color: var(--border-color) !important;
+}
+:root.light .border-slate-700,
+:root.light .border-slate-700\/60 {
+  border-color: var(--border-strong) !important;
+}
+
+/* Divide overrides */
+:root.light .divide-slate-800\/40,
+:root.light .divide-slate-800\/60 > * + * {
+  border-color: var(--border-subtle) !important;
+}
+
+/* Input overrides */
+:root.light input,
+:root.light select,
+:root.light textarea {
+  background-color: var(--bg-input) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+:root.light input::placeholder,
+:root.light textarea::placeholder {
+  color: var(--text-label) !important;
+}
+:root.light input:focus,
+:root.light select:focus,
+:root.light textarea:focus {
+  border-color: var(--border-focus) !important;
+}
+
+/* Hover overrides */
+:root.light .hover\:bg-slate-800\/40:hover,
+:root.light .hover\:bg-slate-800\/50:hover,
+:root.light .hover\:bg-slate-800\/60:hover {
+  background-color: var(--bg-hover) !important;
+}
+:root.light .hover\:bg-white\/5:hover {
+  background-color: var(--bg-hover) !important;
+}
+
+/* Gradient card backgrounds */
+:root.light .bg-gradient-to-br.from-slate-900.to-slate-950 {
+  background: var(--bg-card) !important;
+}
+
+/* Sidebar & header */
+:root.light aside.glass-panel {
+  background: #ffffff !important;
+  border-right-color: var(--border-color) !important;
+}
+
+/* Table cell text in light mode */
+:root.light table th {
+  color: var(--text-label) !important;
+  background: var(--table-header-bg) !important;
+}
+:root.light table td {
+  color: var(--text-secondary) !important;
+}
+:root.light table tr:hover {
+  background: var(--table-row-hover) !important;
+}
+:root.light table .divide-y > * {
+  border-color: var(--table-border) !important;
+}
+
+/* Nav active item in light */
+:root.light .border-l-4.border-blue-500 {
+  background-color: #eff6ff !important;
+}
+
+/* Login page */
+:root.light .min-h-screen.bg-\[\#08090d\] {
+  background-color: var(--bg-base) !important;
 }
 
 /* ─── ANIMATIONS ───────────────────────────────────────────── */
@@ -128,18 +383,18 @@ body {
 }
 
 /* ─── ANIMATION UTILITY CLASSES ───────────────────────────── */
-.animate-fade-in   { animation: fadeIn 0.4s ease both; }
-.animate-slide-up  { animation: slideUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-slide-left{ animation: slideLeft 0.4s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-fade-in    { animation: fadeIn 0.4s ease both; }
+.animate-slide-up   { animation: slideUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-slide-left { animation: slideLeft 0.4s cubic-bezier(0.22,1,0.36,1) both; }
 .animate-slide-right{ animation: slideRight 0.4s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-scale-in  { animation: scaleIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-count-up  { animation: countUp 0.5s ease both; }
-.animate-progress  { animation: progressFill 1.2s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-toast-in  { animation: toastSlideIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
-.animate-toast-out { animation: toastSlideOut 0.3s ease forwards; }
-.animate-pulse-glow{ animation: pulseGlow 2.5s ease-in-out infinite; }
-.animate-bounce-gentle{ animation: bounce-gentle 1.5s ease-in-out infinite; }
-.animate-spin-slow { animation: spin-slow 3s linear infinite; }
+.animate-scale-in   { animation: scaleIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-count-up   { animation: countUp 0.5s ease both; }
+.animate-progress   { animation: progressFill 1.2s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-toast-in   { animation: toastSlideIn 0.35s cubic-bezier(0.22,1,0.36,1) both; }
+.animate-toast-out  { animation: toastSlideOut 0.3s ease forwards; }
+.animate-pulse-glow { animation: pulseGlow 2.5s ease-in-out infinite; }
+.animate-bounce-gentle { animation: bounce-gentle 1.5s ease-in-out infinite; }
+.animate-spin-slow  { animation: spin-slow 3s linear infinite; }
 
 /* ─── STAGGER DELAYS ───────────────────────────────────────── */
 .delay-50  { animation-delay: 50ms; }
@@ -186,7 +441,164 @@ body {
 }
 .card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  box-shadow: var(--shadow-card);
 }
 
+/* ─── LIGHT MODE: COMPONENT-SPECIFIC FIXES ──────────────────
+   Fine-grained overrides for components that need individual attention
+────────────────────────────────────────────────────────────── */
 
+/* Dashboard welcome banner glow fix */
+:root.light .bg-blue-600\/8,
+:root.light .bg-blue-600\/5,
+:root.light .bg-blue-600\/10,
+:root.light .bg-sky-600\/5,
+:root.light .bg-violet-600\/5 {
+  opacity: 0.4;
+}
+
+/* Make mono code badges readable in light */
+:root.light .font-mono.bg-slate-950,
+:root.light .font-mono.bg-slate-900 {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Status badges stay colorful in both modes — keep them */
+
+/* Sidebar nav hover */
+:root.light nav a:not(.border-l-4):hover {
+  background-color: #f1f5f9 !important;
+  color: #1e40af !important;
+}
+
+/* Sidebar logo text in light */
+:root.light aside h1 {
+  background: linear-gradient(to right, #1d4ed8, #0284c7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Filter selects in dashboard */
+:root.light .bg-slate-900.border {
+  background-color: var(--bg-input) !important;
+}
+
+/* Progress bar tracks */
+:root.light .bg-slate-800.rounded-full {
+  background-color: #e2e8f0 !important;
+}
+:root.light .bg-slate-900.rounded-full {
+  background-color: #e9eef4 !important;
+}
+
+/* KPI group containers */
+:root.light .bg-slate-900\/40 {
+  background-color: #f7f9fc !important;
+}
+
+/* Initials avatar in driver rows */
+:root.light .from-slate-700.to-slate-800 {
+  --tw-gradient-from: #cbd5e1 !important;
+  --tw-gradient-to: #e2e8f0 !important;
+  background: linear-gradient(to bottom right, #cbd5e1, #e2e8f0) !important;
+}
+:root.light .from-slate-700.to-slate-800 span {
+  color: #334155 !important;
+}
+
+/* Section header icon boxes */
+:root.light .bg-blue-500\/10.border-blue-500\/20 {
+  background-color: #dbeafe !important;
+  border-color: #93c5fd !important;
+}
+:root.light .bg-blue-500\/10.border-blue-500\/20 svg {
+  color: #1d4ed8 !important;
+}
+
+/* Filter row text */
+:root.light .text-slate-600.font-bold {
+  color: #64748b !important;
+}
+
+/* Toast notification glass in light */
+:root.light .glass-panel.animate-toast-in {
+  background: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Icon in truck/vehicle rows */
+:root.light .p-2.rounded-lg.bg-slate-900.border-slate-800 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Fleet health bar container */
+:root.light .bg-slate-900.flex.h-3 {
+  background-color: #e9eef4 !important;
+}
+
+/* Quick-login buttons on Login page */
+:root.light .bg-slate-900\/40.border-slate-800\/80 {
+  background-color: #f7f9fc !important;
+  border-color: #e2e8f0 !important;
+}
+:root.light .bg-slate-900\/40.border-slate-800\/80:hover {
+  background-color: #eff2f7 !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* Login page card */
+:root.light .glass-panel.p-8.rounded-2xl {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 4px 24px rgba(15,23,42,0.1) !important;
+}
+
+/* Border-t separators */
+:root.light .border-t.border-slate-800,
+:root.light .border-t.border-slate-800\/60 {
+  border-color: #e2e8f0 !important;
+}
+:root.light .border-b.border-slate-800,
+:root.light .border-b.border-slate-800\/60 {
+  border-color: #e2e8f0 !important;
+}
+
+/* Logout button in light mode */
+:root.light button.border-slate-800 {
+  border-color: var(--border-color) !important;
+  color: var(--text-secondary) !important;
+}
+
+/* User card in sidebar */
+:root.light .border.rounded-xl.mb-2 {
+  background-color: #f7f9fc !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Modal overlays */
+:root.light .fixed.inset-0.bg-slate-950\/80 {
+  background-color: rgba(15,23,42,0.5) !important;
+}
+:root.light .glass-panel.p-6.rounded-2xl.border.shadow-2xl {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Reports chart bg */
+:root.light .bg-slate-950 {
+  background-color: #f7f9fc !important;
+}
+
+/* Cancel button in modals */
+:root.light button.border.border-slate-800:not(.bg-blue-600) {
+  background-color: transparent !important;
+  border-color: #e2e8f0 !important;
+  color: #64748b !important;
+}
+:root.light button.border.border-slate-800:not(.bg-blue-600):hover {
+  background-color: #f1f5f9 !important;
+}

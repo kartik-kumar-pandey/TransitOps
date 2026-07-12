@@ -33,15 +33,18 @@ function SectionHeader({ icon: Icon, title, subtitle, badge, delay = 0 }) {
     >
       <div className="flex items-center gap-3">
         <div className="p-2 rounded-xl bg-blue-500/10 border border-blue-500/20">
-          <Icon className="h-4 w-4 text-blue-400" />
+          <Icon className="h-4 w-4 text-blue-500" />
         </div>
         <div>
-          <h3 className="text-sm font-bold text-white font-display tracking-tight">{title}</h3>
-          {subtitle && <p className="text-[11px] text-slate-500 mt-0.5">{subtitle}</p>}
+          <h3 className="text-sm font-bold font-display tracking-tight" style={{ color: 'var(--text-heading)' }}>{title}</h3>
+          {subtitle && <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{subtitle}</p>}
         </div>
       </div>
       {badge && (
-        <span className="text-[10px] font-bold text-slate-400 bg-slate-800/80 border border-slate-700/60 px-2.5 py-1 rounded-full uppercase tracking-wider">
+        <span
+          className="text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+          style={{ color: 'var(--text-muted)', background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)' }}
+        >
           {badge}
         </span>
       )}
@@ -53,21 +56,26 @@ function SectionHeader({ icon: Icon, title, subtitle, badge, delay = 0 }) {
 function KpiCard({ label, value, sub, icon: Icon, color, accent, progress, delay = 0 }) {
   return (
     <div
-      className="p-5 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 flex flex-col justify-between gap-3 shadow-lg transition-all duration-300 hover:border-slate-700/60 hover:-translate-y-0.5 group cursor-default animate-slide-up"
-      style={{ animationDelay: `${delay}ms` }}
+      className="p-5 rounded-2xl flex flex-col justify-between gap-3 shadow-sm transition-all duration-300 hover:-translate-y-0.5 group cursor-default animate-slide-up"
+      style={{
+        animationDelay: `${delay}ms`,
+        background: 'var(--bg-card)',
+        border: '1px solid var(--border-color)',
+        boxShadow: 'var(--shadow-card)',
+      }}
     >
       <div className="flex items-start justify-between">
-        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest leading-tight">{label}</span>
+        <span className="text-[10px] font-bold uppercase tracking-widest leading-tight" style={{ color: 'var(--text-label)' }}>{label}</span>
         <div className={`p-2.5 rounded-xl border transition-all duration-300 group-hover:scale-110 ${color}`}>
           <Icon className="h-4 w-4" />
         </div>
       </div>
       <div>
-        <p className="text-3xl font-black text-white tracking-tight font-display">{value}</p>
-        <p className="text-[11px] text-slate-500 mt-1 font-medium">{sub}</p>
+        <p className="text-3xl font-black tracking-tight font-display" style={{ color: 'var(--text-heading)' }}>{value}</p>
+        <p className="text-[11px] mt-1 font-medium" style={{ color: 'var(--text-muted)' }}>{sub}</p>
       </div>
       {progress !== undefined && (
-        <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+        <div className="w-full rounded-full h-1.5 overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
           <div
             className={`h-1.5 rounded-full transition-all duration-700 ${accent}`}
             style={{ width: `${progress}%` }}
@@ -94,7 +102,7 @@ function FleetHealthBar({ available, onTrip, inShop, retired, total }) {
 
   return (
     <div className="space-y-3">
-      <div className="flex h-3 rounded-full overflow-hidden gap-0.5 bg-slate-900">
+      <div className="flex h-3 rounded-full overflow-hidden gap-0.5" style={{ background: 'var(--border-subtle)' }}>
         {segments.map((s, i) =>
           s.count > 0 ? (
             <div
@@ -110,8 +118,8 @@ function FleetHealthBar({ available, onTrip, inShop, retired, total }) {
         {segments.map((s, i) => (
           <div key={i} className="flex items-center gap-1.5">
             <span className={`h-2 w-2 rounded-full ${s.color}`} />
-            <span className="text-[10px] text-slate-500 font-medium">
-              {s.label} <span className="text-slate-300 font-bold">{s.count}</span>
+            <span className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
+              {s.label} <span className="font-bold" style={{ color: 'var(--text-secondary)' }}>{s.count}</span>
             </span>
           </div>
         ))}
@@ -137,15 +145,25 @@ function DriverRow({ driver }) {
     'text-red-400';
 
   return (
-    <div className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-slate-800/40 border border-transparent hover:border-slate-800/60 transition-all">
+    <div
+      className="flex items-center justify-between py-2.5 px-3 rounded-xl border border-transparent transition-all"
+      onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+      onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = 'transparent'; }}
+    >
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-700 to-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-300 shrink-0">
+        <div
+          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0"
+          style={{ background: 'var(--border-strong)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}
+        >
           {driver.name.split(' ').map(n => n[0]).join('')}
         </div>
         <div>
-          <p className="text-xs font-semibold text-slate-200">{driver.name}</p>
+          <p className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{driver.name}</p>
           <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="text-[9px] bg-slate-900 text-slate-400 border border-slate-800 px-1.5 py-0.5 rounded font-mono">
+            <span
+              className="text-[9px] px-1.5 py-0.5 rounded font-mono"
+              style={{ background: 'var(--bg-card-alt)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}
+            >
               Class {driver.licenseCategory}
             </span>
             <span className={`text-[9px] font-bold flex items-center gap-0.5 ${scoreColor}`}>
@@ -174,15 +192,22 @@ function VehicleRow({ vehicle }) {
       : 'bg-slate-800/60 text-slate-500 border-slate-700';
 
   return (
-    <div className="flex items-center justify-between py-2.5 px-3 rounded-xl hover:bg-slate-800/40 border border-transparent hover:border-slate-800/60 transition-all">
+    <div
+      className="flex items-center justify-between py-2.5 px-3 rounded-xl border border-transparent transition-all"
+      onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+      onMouseLeave={e => { e.currentTarget.style.background = ''; e.currentTarget.style.borderColor = 'transparent'; }}
+    >
       <div className="flex items-center gap-3">
-        <div className="p-2 rounded-lg bg-slate-900 border border-slate-800">
-          <Truck className="h-3.5 w-3.5 text-slate-400" />
+        <div className="p-2 rounded-lg" style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)' }}>
+          <Truck className="h-3.5 w-3.5" style={{ color: 'var(--text-muted)' }} />
         </div>
         <div>
-          <p className="text-xs font-semibold text-slate-200">{vehicle.nameModel}</p>
-          <div className="flex items-center gap-1.5 mt-0.5 text-[9px] text-slate-500">
-            <span className="font-mono bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800 text-slate-400">
+          <p className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{vehicle.nameModel}</p>
+          <div className="flex items-center gap-1.5 mt-0.5 text-[9px]" style={{ color: 'var(--text-muted)' }}>
+            <span
+              className="font-mono px-1.5 py-0.5 rounded"
+              style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}
+            >
               {vehicle.registrationNumber}
             </span>
             <span>·</span>
@@ -210,8 +235,8 @@ function AlertItem({ icon: Icon, iconColor, bgColor, text, sub }) {
         <Icon className={`h-3.5 w-3.5 ${iconColor}`} />
       </div>
       <div>
-        <p className="text-xs font-semibold text-slate-200">{text}</p>
-        <p className="text-[10px] text-slate-500 mt-0.5">{sub}</p>
+        <p className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{text}</p>
+        <p className="text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{sub}</p>
       </div>
     </div>
   );
@@ -279,8 +304,13 @@ export default function Dashboard() {
 
       {/* ── SECTION 1: Welcome Banner ──────────────────────────────────── */}
       <div
-        className="relative overflow-hidden p-6 md:p-8 rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 shadow-xl animate-slide-up"
-        style={{ animationDelay: '0ms' }}
+        className="relative overflow-hidden p-6 md:p-8 rounded-3xl shadow-md animate-slide-up"
+        style={{
+          animationDelay: '0ms',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-color)',
+          boxShadow: 'var(--shadow-card)',
+        }}
       >
         <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/8 blur-[120px] rounded-full pointer-events-none" />
         <div className="absolute -bottom-24 -left-16 w-72 h-72 bg-violet-600/5 blur-[90px] rounded-full pointer-events-none" />
@@ -289,34 +319,37 @@ export default function Dashboard() {
           {/* Left: Welcome text */}
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-label)' }}>
                 Platform Status: Operational
               </span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight font-display">
+            <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight font-display" style={{ color: 'var(--text-heading)' }}>
               Welcome back, {user?.name}!
             </h2>
-            <p className="text-sm text-slate-500 mt-1.5 max-w-lg">
+            <p className="text-sm mt-1.5 max-w-lg" style={{ color: 'var(--text-secondary)' }}>
               Logged in as{' '}
-              <strong className="text-blue-400 capitalize">{user?.role?.replace('_', ' ')}</strong>.
+              <strong className="text-blue-500 capitalize">{user?.role?.replace('_', ' ')}</strong>.
               Here&apos;s your fleet&apos;s real-time operational summary.
             </p>
           </div>
 
           {/* Right: Snapshot mini gauges */}
           <div className="flex gap-4 w-full xl:w-auto">
-            <div className="flex-1 xl:w-44 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div
+              className="flex-1 xl:w-44 p-4 rounded-2xl space-y-2"
+              style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)' }}
+            >
               <div className="flex items-center justify-between">
-                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Fleet Utilization</span>
-                <span className="text-[9px] font-bold text-emerald-400 flex items-center gap-0.5 bg-emerald-500/10 px-1.5 py-0.5 rounded-full border border-emerald-500/20">
+                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-label)' }}>Fleet Utilization</span>
+                <span className="text-[9px] font-bold text-emerald-600 flex items-center gap-0.5 bg-emerald-500/10 px-1.5 py-0.5 rounded-full border border-emerald-500/20">
                   <TrendingUp className="h-2.5 w-2.5" /> Optimal
                 </span>
               </div>
-              <p className="text-4xl font-black text-white font-display">
-                {utilizationRate}<span className="text-xl text-slate-400">%</span>
+              <p className="text-4xl font-black font-display" style={{ color: 'var(--text-heading)' }}>
+                {utilizationRate}<span className="text-xl" style={{ color: 'var(--text-muted)' }}>%</span>
               </p>
-              <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+              <div className="w-full rounded-full h-1.5 overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
                 <div
                   className="h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-sky-400 transition-all duration-700"
                   style={{ width: `${utilizationRate}%` }}
@@ -324,10 +357,13 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="flex-1 xl:w-44 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-2">
+            <div
+              className="flex-1 xl:w-44 p-4 rounded-2xl space-y-2"
+              style={{ background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)' }}
+            >
               <div className="flex items-center justify-between">
-                <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Driver Readiness</span>
-                <span className="text-[9px] font-bold text-cyan-400 flex items-center gap-0.5 bg-cyan-500/10 px-1.5 py-0.5 rounded-full border border-cyan-500/20">
+                <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-label)' }}>Driver Readiness</span>
+                <span className="text-[9px] font-bold text-cyan-600 flex items-center gap-0.5 bg-cyan-500/10 px-1.5 py-0.5 rounded-full border border-cyan-500/20">
                   <Gauge className="h-2.5 w-2.5" /> Ready
                 </span>
               </div>
@@ -352,17 +388,18 @@ export default function Dashboard() {
           className="flex flex-wrap items-center gap-3 animate-slide-up"
           style={{ animationDelay: '60ms' }}
         >
-          <div className="flex items-center gap-2 text-slate-500">
-            <Filter className="h-3.5 w-3.5 text-blue-400" />
+          <div className="flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
+            <Filter className="h-3.5 w-3.5 text-blue-500" />
             <span className="text-[10px] font-bold uppercase tracking-wider">Filters</span>
           </div>
           <div className="flex flex-wrap gap-2">
             <div className="flex flex-col">
-              <span className="text-[8px] text-slate-600 font-bold uppercase tracking-wider mb-0.5 ml-0.5">Region</span>
+              <span className="text-[8px] font-bold uppercase tracking-wider mb-0.5 ml-0.5" style={{ color: 'var(--text-label)' }}>Region</span>
               <select
                 value={regionFilter}
                 onChange={(e) => setRegionFilter(e.target.value)}
-                className="bg-slate-900 border border-slate-800 hover:border-blue-500/50 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer transition-colors"
+                className="rounded-xl px-3 py-1.5 text-xs font-semibold cursor-pointer transition-colors"
+                style={{ background: 'var(--bg-input)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
               >
                 <option value="All">All Regions</option>
                 <option value="North">North</option>
@@ -372,11 +409,12 @@ export default function Dashboard() {
               </select>
             </div>
             <div className="flex flex-col">
-              <span className="text-[8px] text-slate-600 font-bold uppercase tracking-wider mb-0.5 ml-0.5">Type</span>
+              <span className="text-[8px] font-bold uppercase tracking-wider mb-0.5 ml-0.5" style={{ color: 'var(--text-label)' }}>Type</span>
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="bg-slate-900 border border-slate-800 hover:border-blue-500/50 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-300 focus:outline-none focus:border-blue-500 cursor-pointer transition-colors"
+                className="rounded-xl px-3 py-1.5 text-xs font-semibold cursor-pointer transition-colors"
+                style={{ background: 'var(--bg-input)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
               >
                 <option value="All">All Types</option>
                 <option value="Van">Vans</option>
@@ -384,7 +422,7 @@ export default function Dashboard() {
               </select>
             </div>
           </div>
-          <span className="ml-auto text-[10px] text-slate-600 font-medium">
+          <span className="ml-auto text-[10px] font-medium" style={{ color: 'var(--text-label)' }}>
             {filteredVehicles.length} of {totalVehicles} vehicles shown
           </span>
         </div>
@@ -393,54 +431,63 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
           {/* Fleet group */}
-          <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 animate-slide-up" style={{ animationDelay: '100ms' }}>
+          <div
+            className="p-5 rounded-2xl animate-slide-up"
+            style={{ animationDelay: '100ms', background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)' }}
+          >
             <div className="flex items-center gap-2 mb-4">
-              <Truck className="h-3.5 w-3.5 text-blue-400" />
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Fleet</span>
+              <Truck className="h-3.5 w-3.5 text-blue-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-label)' }}>Fleet</span>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
-              <KpiCard label="On Trip"    value={activeVehicles}    sub={`of ${filteredVehicles.length} shown`} icon={Navigation}    color="text-blue-400 bg-blue-500/10 border-blue-500/20"           accent="bg-gradient-to-r from-blue-500 to-sky-400"      progress={filteredVehicles.length > 0 ? (activeVehicles / filteredVehicles.length) * 100 : 0}    delay={120} />
-              <KpiCard label="Available"  value={availableVehicles} sub="ready to dispatch"                    icon={CheckCircle2}  color="text-emerald-400 bg-emerald-500/10 border-emerald-500/20"  accent="bg-gradient-to-r from-emerald-500 to-teal-400"  progress={filteredVehicles.length > 0 ? (availableVehicles / filteredVehicles.length) * 100 : 0} delay={160} />
-              <KpiCard label="In Shop"    value={maintenanceVehicles} sub="in maintenance"                     icon={Wrench}        color="text-amber-400 bg-amber-500/10 border-amber-500/20"        accent="bg-gradient-to-r from-amber-500 to-orange-400"  progress={filteredVehicles.length > 0 ? (maintenanceVehicles / filteredVehicles.length) * 100 : 0} delay={200} />
-              <KpiCard label="Retired"    value={retiredVehicles}   sub="out of service"                       icon={CircleDot}     color="text-slate-400 bg-slate-800/60 border-slate-700"           accent="bg-slate-600"                                   progress={filteredVehicles.length > 0 ? (retiredVehicles / filteredVehicles.length) * 100 : 0}    delay={240} />
+              <KpiCard label="On Trip"    value={activeVehicles}    sub={`of ${filteredVehicles.length} shown`} icon={Navigation}    color="text-blue-500 bg-blue-500/10 border-blue-500/20"           accent="bg-gradient-to-r from-blue-500 to-sky-400"      progress={filteredVehicles.length > 0 ? (activeVehicles / filteredVehicles.length) * 100 : 0}    delay={120} />
+              <KpiCard label="Available"  value={availableVehicles} sub="ready to dispatch"                    icon={CheckCircle2}  color="text-emerald-600 bg-emerald-500/10 border-emerald-500/20"  accent="bg-gradient-to-r from-emerald-500 to-teal-400"  progress={filteredVehicles.length > 0 ? (availableVehicles / filteredVehicles.length) * 100 : 0} delay={160} />
+              <KpiCard label="In Shop"    value={maintenanceVehicles} sub="in maintenance"                     icon={Wrench}        color="text-amber-600 bg-amber-500/10 border-amber-500/20"        accent="bg-gradient-to-r from-amber-500 to-orange-400"  progress={filteredVehicles.length > 0 ? (maintenanceVehicles / filteredVehicles.length) * 100 : 0} delay={200} />
+              <KpiCard label="Retired"    value={retiredVehicles}   sub="out of service"                       icon={CircleDot}     color="text-slate-500 bg-slate-500/10 border-slate-500/20"       accent="bg-slate-400"                                   progress={filteredVehicles.length > 0 ? (retiredVehicles / filteredVehicles.length) * 100 : 0}    delay={240} />
             </div>
           </div>
 
           {/* Drivers group */}
-          <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 animate-slide-up" style={{ animationDelay: '160ms' }}>
+          <div
+            className="p-5 rounded-2xl animate-slide-up"
+            style={{ animationDelay: '160ms', background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)' }}
+          >
             <div className="flex items-center gap-2 mb-4">
-              <Users className="h-3.5 w-3.5 text-cyan-400" />
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Drivers</span>
+              <Users className="h-3.5 w-3.5 text-cyan-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-label)' }}>Drivers</span>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
-              <KpiCard label="On Duty"   value={activeDrivers} sub="currently on trips"  icon={Zap}          color="text-cyan-400 bg-cyan-500/10 border-cyan-500/20"            accent="bg-gradient-to-r from-cyan-500 to-teal-400"     progress={totalDrivers > 0 ? (activeDrivers / totalDrivers) * 100 : 0}  delay={180} />
-              <KpiCard label="Available" value={availDrivers}  sub="ready to assign"     icon={CheckCircle2} color="text-emerald-400 bg-emerald-500/10 border-emerald-500/20"   accent="bg-gradient-to-r from-emerald-500 to-teal-400"  progress={totalDrivers > 0 ? (availDrivers / totalDrivers) * 100 : 0}   delay={220} />
-              <KpiCard label="Suspended" value={suspDrivers}   sub="restricted from ops" icon={Shield}       color="text-red-400 bg-red-500/10 border-red-500/20"              accent="bg-gradient-to-r from-red-500 to-rose-400"      progress={totalDrivers > 0 ? (suspDrivers / totalDrivers) * 100 : 0}    delay={260} />
-              <KpiCard label="Total"     value={totalDrivers}  sub="registered drivers"  icon={Users}        color="text-slate-400 bg-slate-800 border-slate-700"              accent="bg-slate-600"                                   delay={300} />
+              <KpiCard label="On Duty"   value={activeDrivers} sub="currently on trips"  icon={Zap}          color="text-cyan-600 bg-cyan-500/10 border-cyan-500/20"            accent="bg-gradient-to-r from-cyan-500 to-teal-400"     progress={totalDrivers > 0 ? (activeDrivers / totalDrivers) * 100 : 0}  delay={180} />
+              <KpiCard label="Available" value={availDrivers}  sub="ready to assign"     icon={CheckCircle2} color="text-emerald-600 bg-emerald-500/10 border-emerald-500/20"   accent="bg-gradient-to-r from-emerald-500 to-teal-400"  progress={totalDrivers > 0 ? (availDrivers / totalDrivers) * 100 : 0}   delay={220} />
+              <KpiCard label="Suspended" value={suspDrivers}   sub="restricted from ops" icon={Shield}       color="text-red-500 bg-red-500/10 border-red-500/20"              accent="bg-gradient-to-r from-red-500 to-rose-400"      progress={totalDrivers > 0 ? (suspDrivers / totalDrivers) * 100 : 0}    delay={260} />
+              <KpiCard label="Total"     value={totalDrivers}  sub="registered drivers"  icon={Users}        color="text-slate-500 bg-slate-500/10 border-slate-500/20"        accent="bg-slate-400"                                   delay={300} />
             </div>
           </div>
 
           {/* Trips group */}
-          <div className="p-5 rounded-2xl border border-slate-800 bg-slate-900/40 animate-slide-up" style={{ animationDelay: '220ms' }}>
+          <div
+            className="p-5 rounded-2xl animate-slide-up"
+            style={{ animationDelay: '220ms', background: 'var(--bg-card-alt)', border: '1px solid var(--border-color)' }}
+          >
             <div className="flex items-center gap-2 mb-4">
-              <Route className="h-3.5 w-3.5 text-violet-400" />
-              <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Trips</span>
+              <Route className="h-3.5 w-3.5 text-violet-500" />
+              <span className="text-[10px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-label)' }}>Trips</span>
             </div>
             <div className="grid grid-cols-2 gap-2.5">
-              <KpiCard label="Dispatched" value={activeTripsCount}  sub="on road right now"  icon={Navigation}   color="text-sky-400 bg-sky-500/10 border-sky-500/20"             accent="bg-gradient-to-r from-sky-500 to-blue-400"      progress={trips.length > 0 ? (activeTripsCount / trips.length) * 100 : 0}  delay={240} />
-              <KpiCard label="Pending"    value={pendingTripsCount} sub="saved drafts"        icon={Clock}        color="text-violet-400 bg-violet-500/10 border-violet-500/20"   accent="bg-gradient-to-r from-violet-500 to-purple-400" progress={trips.length > 0 ? (pendingTripsCount / trips.length) * 100 : 0} delay={280} />
-              <KpiCard label="Completed"  value={completedTrips}    sub="this session"        icon={CheckCircle2} color="text-emerald-400 bg-emerald-500/10 border-emerald-500/20" accent="bg-gradient-to-r from-emerald-500 to-teal-400"  progress={trips.length > 0 ? (completedTrips / trips.length) * 100 : 0}   delay={320} />
-              <KpiCard label="Total"      value={trips.length}      sub="all time"            icon={BarChart3}    color="text-slate-400 bg-slate-800 border-slate-700"            accent="bg-slate-600"                                   delay={360} />
+              <KpiCard label="Dispatched" value={activeTripsCount}  sub="on road right now"  icon={Navigation}   color="text-sky-500 bg-sky-500/10 border-sky-500/20"             accent="bg-gradient-to-r from-sky-500 to-blue-400"      progress={trips.length > 0 ? (activeTripsCount / trips.length) * 100 : 0}  delay={240} />
+              <KpiCard label="Pending"    value={pendingTripsCount} sub="saved drafts"        icon={Clock}        color="text-violet-500 bg-violet-500/10 border-violet-500/20"   accent="bg-gradient-to-r from-violet-500 to-purple-400" progress={trips.length > 0 ? (pendingTripsCount / trips.length) * 100 : 0} delay={280} />
+              <KpiCard label="Completed"  value={completedTrips}    sub="this session"        icon={CheckCircle2} color="text-emerald-600 bg-emerald-500/10 border-emerald-500/20" accent="bg-gradient-to-r from-emerald-500 to-teal-400"  progress={trips.length > 0 ? (completedTrips / trips.length) * 100 : 0}   delay={320} />
+              <KpiCard label="Total"      value={trips.length}      sub="all time"            icon={BarChart3}    color="text-slate-500 bg-slate-500/10 border-slate-500/20"      accent="bg-slate-400"                                   delay={360} />
             </div>
           </div>
 
         </div>
       </div>
 
-      {/* ── SECTION 3: Fleet Health Bar ────────────────────────────────── */}
+      {/* ── SECTION 3: Fleet Health Bar ────────────────── */}
       <div
-        className="p-5 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 shadow-lg animate-slide-up"
-        style={{ animationDelay: '280ms' }}
+        className="p-5 rounded-2xl shadow-sm animate-slide-up"
+        style={{ animationDelay: '280ms', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-card)' }}
       >
         <SectionHeader
           icon={Gauge}
@@ -466,8 +513,8 @@ export default function Dashboard() {
 
           {/* Live Dispatch Tracking */}
           <div
-            className="p-6 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 shadow-xl animate-slide-up"
-            style={{ animationDelay: '320ms' }}
+            className="p-6 rounded-2xl shadow-sm animate-slide-up"
+            style={{ animationDelay: '320ms', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-card)' }}
           >
             <SectionHeader
               icon={Activity}
@@ -481,8 +528,8 @@ export default function Dashboard() {
 
           {/* Active Fleet Registry */}
           <div
-            className="p-6 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 shadow-xl animate-slide-up"
-            style={{ animationDelay: '380ms' }}
+            className="p-6 rounded-2xl shadow-sm animate-slide-up"
+            style={{ animationDelay: '380ms', background: 'var(--bg-card)', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-card)' }}
           >
             <SectionHeader
               icon={Truck}
@@ -511,8 +558,13 @@ export default function Dashboard() {
           {/* Alerts & Flags — only shown when alerts exist */}
           {alerts.length > 0 && (
             <div
-              className="p-6 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 shadow-xl animate-slide-up"
-              style={{ animationDelay: '340ms' }}
+              className="p-6 rounded-2xl shadow-sm animate-slide-up"
+              style={{
+                animationDelay: '340ms',
+                background: 'var(--bg-card)',
+                border: '1px solid var(--border-color)',
+                boxShadow: 'var(--shadow-card)'
+              }}
             >
               <SectionHeader
                 icon={AlertTriangle}
@@ -531,8 +583,13 @@ export default function Dashboard() {
 
           {/* Duty Roster */}
           <div
-            className="p-6 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 shadow-xl animate-slide-up"
-            style={{ animationDelay: '400ms' }}
+            className="p-6 rounded-2xl shadow-sm animate-slide-up"
+            style={{
+              animationDelay: '400ms',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-color)',
+              boxShadow: 'var(--shadow-card)'
+            }}
           >
             <SectionHeader
               icon={Users}
@@ -550,8 +607,13 @@ export default function Dashboard() {
 
           {/* Session Stats */}
           <div
-            className="p-6 rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 shadow-xl animate-slide-up space-y-4"
-            style={{ animationDelay: '460ms' }}
+            className="p-6 rounded-2xl shadow-sm animate-slide-up space-y-4"
+            style={{
+              animationDelay: '460ms',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--border-color)',
+              boxShadow: 'var(--shadow-card)'
+            }}
           >
             <SectionHeader
               icon={BarChart3}
@@ -567,10 +629,10 @@ export default function Dashboard() {
               ].map((stat, i) => (
                 <div key={i} className="space-y-1.5">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-medium text-slate-500">{stat.label}</span>
+                    <span className="text-[10px] font-medium" style={{ color: 'var(--text-secondary)' }}>{stat.label}</span>
                     <span className="text-xs font-bold text-white">{stat.value}</span>
                   </div>
-                  <div className="h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                  <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--border-subtle)' }}>
                     <div
                       className={`h-1.5 rounded-full bg-gradient-to-r ${stat.color} transition-all duration-700`}
                       style={{ width: `${stat.bar}%` }}
@@ -580,13 +642,13 @@ export default function Dashboard() {
               ))}
             </div>
 
-            <div className="pt-3 border-t border-slate-800/60 space-y-2">
-              <p className="text-[9px] text-slate-600 font-bold uppercase tracking-widest">Tips</p>
-              <p className="text-[10px] text-slate-500 leading-relaxed">
-                Use the <span className="text-blue-400 font-semibold">Trips</span> panel to dispatch new routes with AI-ranked driver recommendations.
+            <div className="pt-3 border-t space-y-2" style={{ borderColor: 'var(--border-color)' }}>
+              <p className="text-[9px] font-bold uppercase tracking-widest" style={{ color: 'var(--text-label)' }}>Tips</p>
+              <p className="text-[10px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                Use the <span className="text-blue-500 font-semibold">Trips</span> panel to dispatch new routes with AI-ranked driver recommendations.
               </p>
-              <p className="text-[10px] text-slate-500 leading-relaxed">
-                Track costs and fuel efficiency under the <span className="text-blue-400 font-semibold">Reports</span> section.
+              <p className="text-[10px] leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                Track costs and fuel efficiency under the <span className="text-blue-500 font-semibold">Reports</span> section.
               </p>
             </div>
           </div>
