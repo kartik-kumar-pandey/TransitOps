@@ -29,7 +29,7 @@ export default function Expenses() {
 
   const [error, setError] = useState('');
 
-  const handleFuelSubmit = (e) => {
+  const handleFuelSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -38,7 +38,7 @@ export default function Expenses() {
       return;
     }
 
-    const res = addFuelLog({
+    const res = await addFuelLog({
       vehicleId,
       liters: Number(liters),
       cost: Number(fuelCost),
@@ -55,7 +55,7 @@ export default function Expenses() {
     }
   };
 
-  const handleExpenseSubmit = (e) => {
+  const handleExpenseSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -64,7 +64,7 @@ export default function Expenses() {
       return;
     }
 
-    const res = addExpense({
+    const res = await addExpense({
       vehicleId: expenseVehicleId,
       amount: Number(expenseAmount),
       type: expenseType,
@@ -85,15 +85,15 @@ export default function Expenses() {
   // Group operational costs by vehicle
   const computeVehicleOperationalCosts = () => {
     return vehicles.map((v) => {
-      // Sum up fuel logs for this vehicle
+      // Sum up fuel logs for this vehicle (scaled by 83 for INR)
       const vehicleFuelCost = fuelLogs
         .filter((f) => f.vehicleId === v.id)
-        .reduce((sum, item) => sum + item.cost, 0);
+        .reduce((sum, item) => sum + item.cost, 0) * 83;
 
-      // Sum up expenses for this vehicle
+      // Sum up expenses for this vehicle (scaled by 83 for INR)
       const vehicleExpenses = expenses
         .filter((e) => e.vehicleId === v.id)
-        .reduce((sum, item) => sum + item.amount, 0);
+        .reduce((sum, item) => sum + item.amount, 0) * 83;
 
       return {
         ...v,
@@ -102,6 +102,14 @@ export default function Expenses() {
         totalOpCost: vehicleFuelCost + vehicleExpenses
       };
     });
+  };
+
+  const formatRupees = (amount) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 0
+    }).format(amount);
   };
 
   const vehicleOpCosts = computeVehicleOperationalCosts();
@@ -154,16 +162,16 @@ export default function Expenses() {
               <div className="mt-4 space-y-2 border-t border-b border-slate-800/60 py-3 my-3">
                 <div className="flex justify-between text-xs text-slate-400">
                   <span>Fuel Costs:</span>
-                  <span className="font-semibold text-slate-200">${v.totalFuel.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span className="font-semibold text-slate-200">{formatRupees(v.totalFuel)}</span>
                 </div>
                 <div className="flex justify-between text-xs text-slate-400">
                   <span>Other Expenses:</span>
-                  <span className="font-semibold text-slate-200">${v.totalExpenses.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  <span className="font-semibold text-slate-200">{formatRupees(v.totalExpenses)}</span>
                 </div>
               </div>
               <div className="flex justify-between items-baseline">
                 <span className="text-xs text-slate-500 font-bold uppercase tracking-wider">Total Operational:</span>
-                <span className="text-xl font-black text-blue-400">${v.totalOpCost.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                <span className="text-lg font-black text-blue-400">{formatRupees(v.totalOpCost)}</span>
               </div>
             </div>
           ))}
@@ -212,7 +220,7 @@ export default function Expenses() {
                           </span>
                         </td>
                         <td className="px-6 py-4 text-slate-400 max-w-sm truncate">{e.description}</td>
-                        <td className="px-6 py-4 text-right font-bold text-slate-100">${e.amount.toFixed(2)}</td>
+                        <td className="px-6 py-4 text-right font-bold text-slate-100">{formatRupees(e.amount * 83)}</td>
                       </tr>
                     );
                   })
@@ -287,7 +295,7 @@ export default function Expenses() {
 
                 <div>
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">
-                    Total Cost ($)
+                    Total Cost (₹)
                   </label>
                   <input
                     type="number"
@@ -295,7 +303,7 @@ export default function Expenses() {
                     required
                     value={fuelCost}
                     onChange={(e) => setFuelCost(e.target.value)}
-                    placeholder="e.g. 90.00"
+                    placeholder="e.g. 7500"
                     className="w-full bg-slate-955 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-205 focus:outline-none focus:border-violet-505"
                   />
                 </div>
@@ -392,7 +400,7 @@ export default function Expenses() {
 
                 <div>
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">
-                    Amount ($)
+                    Amount (₹)
                   </label>
                   <input
                     type="number"
@@ -400,7 +408,7 @@ export default function Expenses() {
                     required
                     value={expenseAmount}
                     onChange={(e) => setExpenseAmount(e.target.value)}
-                    placeholder="e.g. 25.00"
+                    placeholder="e.g. 2100"
                     className="w-full bg-slate-955 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-205 focus:outline-none focus:border-violet-505"
                   />
                 </div>

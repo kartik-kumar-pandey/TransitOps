@@ -3,21 +3,9 @@ import bcrypt from 'bcryptjs';
 import prisma from '../utils/prisma';
 import { generateToken, AuthenticatedRequest } from '../middleware/auth';
 
-export async function signup(req: AuthenticatedRequest, res: Response) {
+export async function signup(req: Request, res: Response) {
   try {
-    // Enforce that only logged-in fleet managers can create users
-    if (!req.user || req.user.role !== 'fleet_manager') {
-      res.status(403).json({ error: 'Forbidden: Only fleet managers can register users' });
-      return;
-    }
-
     const { email, password, name, role } = req.body;
-
-    // Block self-elevation: prevent creating another fleet_manager unless authorized
-    if (role === 'fleet_manager' && req.user.role !== 'fleet_manager') {
-      res.status(403).json({ error: 'Forbidden: Cannot create an elevated fleet_manager role' });
-      return;
-    }
 
     if (!email || !password || !name) {
       return res.status(400).json({ error: 'Email, password, and name are required' });
@@ -71,10 +59,47 @@ export async function login(req: Request, res: Response) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
+    // Check if account is locked
+    if (user.lockUntil && new Date(user.lockUntil) > new Date()) {
+      const minutesLeft = Math.ceil((new Date(user.lockUntil).getTime() - Date.now()) / 60000);
+      return res.status(403).json({
+        error: `Account is temporarily locked due to 5 incorrect login attempts. Try again in ${minutesLeft} minute(s).`
+      });
+    }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      const attempts = user.failedLoginAttempts + 1;
+      const isLockedNow = attempts >= 5;
+      const lockUntil = isLockedNow ? new Date(Date.now() + 15 * 60 * 1000) : null; // 15 mins
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          failedLoginAttempts: attempts,
+          lockUntil
+        }
+      });
+
+      if (isLockedNow) {
+        return res.status(403).json({
+          error: 'Account has been temporarily locked for 15 minutes due to 5 failed login attempts.'
+        });
+      }
+
+      return res.status(401).json({
+        error: `Invalid email or password. ${5 - attempts} attempt(s) remaining.`
+      });
     }
+
+    // Reset failed attempts on success
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        failedLoginAttempts: 0,
+        lockUntil: null
+      }
+    });
 
     const token = generateToken(user.id, user.role);
 
@@ -92,5 +117,74 @@ export async function login(req: Request, res: Response) {
   } catch (error: any) {
     res.status(500).json({ error: error.message });
     return;
+  }
+}
+
+export async function forgotPassword(req: Request, res: Response) {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      // Return 200 to prevent user enumeration
+      return res.status(200).json({
+        message: 'If the email exists, a reset code has been generated.',
+        resetToken: 'SIMULATED-SUCCESS'
+      });
+    }
+
+    const resetToken = Math.floor(100000 + Math.random() * 900000).toString(); // 6 digit PIN
+    const resetTokenExpiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        resetToken,
+        resetTokenExpiry
+      }
+    });
+
+    console.log(`[PASSWORD RESET CODE FOR ${email}]: ${resetToken}`);
+
+    return res.status(200).json({
+      message: 'Password reset code generated.',
+      resetToken // Return the code directly in body for user demo/testing convenience
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
+  }
+}
+
+export async function resetPassword(req: Request, res: Response) {
+  try {
+    const { email, resetToken, newPassword } = req.body;
+    if (!email || !resetToken || !newPassword) {
+      return res.status(400).json({ error: 'Email, resetToken, and newPassword are required' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user || user.resetToken !== resetToken || !user.resetTokenExpiry || new Date(user.resetTokenExpiry) < new Date()) {
+      return res.status(400).json({ error: 'Invalid or expired password reset code.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiry: null,
+        failedLoginAttempts: 0,
+        lockUntil: null
+      }
+    });
+
+    return res.status(200).json({ message: 'Password has been reset successfully.' });
+  } catch (error: any) {
+    return res.status(500).json({ error: error.message });
   }
 }

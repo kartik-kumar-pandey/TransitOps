@@ -21,8 +21,8 @@ async function testBackend() {
   // 2. Authentication: Login
   try {
     const loginResponse = await axios.post(`${BASE_URL}/auth/login`, {
-      email: 'manager@transitops.com',
-      password: 'password123',
+      email: 'fleet@transit.com',
+      password: 'transit123',
     });
     token = loginResponse.data.token;
     console.log('✅ Authentication (Login): PASSED. Token received.');

@@ -13,6 +13,7 @@ import PageTransition from './components/PageTransition';
 // Pages
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import Vehicles from './pages/Vehicles';
 import Drivers from './pages/Drivers';
@@ -32,6 +33,7 @@ function App() {
               {/* Public */}
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
 
               {/* Protected */}
               <Route path="/dashboard" element={

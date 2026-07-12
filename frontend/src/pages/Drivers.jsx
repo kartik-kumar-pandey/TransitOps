@@ -90,7 +90,7 @@ export default function Drivers() {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -105,14 +105,14 @@ export default function Drivers() {
     };
 
     if (editingDriver) {
-      const res = updateDriver(editingDriver.id, payload);
+      const res = await updateDriver(editingDriver.id, payload);
       if (res.success) {
         setIsModalOpen(false);
       } else {
         setError(res.error || 'Failed to update driver');
       }
     } else {
-      const res = addDriver(payload);
+      const res = await addDriver(payload);
       if (res.success) {
         setIsModalOpen(false);
       } else {

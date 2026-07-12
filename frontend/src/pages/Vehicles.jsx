@@ -76,12 +76,12 @@ export default function Vehicles() {
     setIsModalOpen(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     if (editingVehicle) {
-      const res = updateVehicle(editingVehicle.id, {
+      const res = await updateVehicle(editingVehicle.id, {
         registrationNumber: formData.registrationNumber,
         nameModel: formData.nameModel,
         type: formData.type,
@@ -98,7 +98,7 @@ export default function Vehicles() {
         setError(res.error);
       }
     } else {
-      const res = addVehicle({
+      const res = await addVehicle({
         registrationNumber: formData.registrationNumber,
         nameModel: formData.nameModel,
         type: formData.type,
@@ -251,7 +251,7 @@ export default function Vehicles() {
                     <td className="px-6 py-4">{v.type}</td>
                     <td className="px-6 py-4">{v.maxLoadCapacity} kg</td>
                     <td className="px-6 py-4">{v.odometer.toLocaleString()} km</td>
-                    <td className="px-6 py-4">${v.acquisitionCost.toLocaleString()}</td>
+                    <td className="px-6 py-4">₹{(v.acquisitionCost * 83).toLocaleString('en-IN')}</td>
                     <td className="px-6 py-4">{v.region}</td>
                     <td className="px-6 py-4">
                       <span
@@ -393,14 +393,14 @@ export default function Vehicles() {
               <div className="grid grid-cols-3 gap-4">
                 <div>
                   <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">
-                    Acquisition Cost ($)
+                    Acquisition Cost (₹)
                   </label>
                   <input
                     type="number"
                     required
                     value={formData.acquisitionCost}
                     onChange={(e) => setFormData({ ...formData, acquisitionCost: e.target.value })}
-                    placeholder="e.g. 35000"
+                    placeholder="e.g. 2900000"
                     className="w-full bg-slate-955 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-violet-505"
                   />
                 </div>

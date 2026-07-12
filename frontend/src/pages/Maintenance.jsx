@@ -27,7 +27,7 @@ export default function Maintenance() {
   // Show only vehicles not retired for maintenance
   const eligibleVehicles = vehicles.filter((v) => v.status !== 'Retired' && v.status !== 'On Trip');
 
-  const handleCreateLog = (e) => {
+  const handleCreateLog = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -36,7 +36,7 @@ export default function Maintenance() {
       return;
     }
 
-    const res = addMaintenanceLog({
+    const res = await addMaintenanceLog({
       vehicleId,
       issueDescription,
       cost: Number(cost)
@@ -60,9 +60,9 @@ export default function Maintenance() {
     setIsCloseOpen(true);
   };
 
-  const handleCloseLogSubmit = (e) => {
+  const handleCloseLogSubmit = async (e) => {
     e.preventDefault();
-    const res = closeMaintenanceLog(selectedLogId, Number(finalCost));
+    const res = await closeMaintenanceLog(selectedLogId, Number(finalCost));
     if (res.success) {
       setIsCloseOpen(false);
     } else {

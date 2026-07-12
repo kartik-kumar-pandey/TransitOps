@@ -8,6 +8,8 @@ import {
   Navigation, X, Radio, List, Zap, Trophy, Star
 } from 'lucide-react';
 
+const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
 export default function Trips() {
   const { user } = useAuth();
   const { trips, vehicles, drivers, createTrip, dispatchTrip, completeTrip, cancelTrip } = useMockData();
@@ -45,7 +47,7 @@ export default function Trips() {
   );
 
   /* ── Enhanced AI Dispatch Advisor ────────────────────────────── */
-  const runAiAdvisor = () => {
+  const runAiAdvisor = async () => {
     if (!cargoWeight || !plannedDistance) {
       setFormError('Fill in Cargo Weight and Distance first for AI advice.');
       return;
@@ -53,63 +55,45 @@ export default function Trips() {
     setIsAiLoading(true);
     setFormError('');
 
-    setTimeout(() => {
-      const weight = Number(cargoWeight);
-      const dist   = Number(plannedDistance);
+    try {
+      const token = localStorage.getItem('transitops_token');
+      const headers = {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+      };
 
-      const eligibleVehicles = availableVehicles.filter(v => v.maxLoadCapacity >= weight);
-      if (eligibleVehicles.length === 0) {
-        setFormError('AI: No available vehicles can carry this cargo weight.');
-        setIsAiLoading(false);
-        return;
-      }
-      if (availableDrivers.length === 0) {
-        setFormError('AI: No eligible drivers currently available.');
-        setIsAiLoading(false);
-        return;
-      }
-
-      // Score each vehicle × driver pair
-      const maxOdo = Math.max(...eligibleVehicles.map(v => v.odometer), 1);
-      const pairs = [];
-      eligibleVehicles.forEach(v => {
-        availableDrivers.forEach(d => {
-          // Capacity fit: prefer least headroom (40%)
-          const capacityFit = 1 - Math.abs(v.maxLoadCapacity - weight) / v.maxLoadCapacity;
-          // Safety score (35%)
-          const safetyScore = d.safetyScore / 100;
-          // Odometer (lower is better) (10%)
-          const odoScore = 1 - v.odometer / maxOdo;
-          // License match (15%): Heavy for trucks, medium for vans
-          const licenseMatch = (v.type === 'Truck' && d.licenseCategory === 'Heavy') ||
-                               (v.type === 'Van'   && d.licenseCategory === 'Medium') ? 1 : 0.5;
-
-          const score = (capacityFit * 0.4 + safetyScore * 0.35 + odoScore * 0.1 + licenseMatch * 0.15) * 100;
-
-          pairs.push({
-            vehicle: v, driver: d, score: Math.round(score),
-            reason: `${v.nameModel} fits ${weight}kg cargo (cap ${v.maxLoadCapacity}kg). ` +
-                    `${d.name} has a ${d.safetyScore}/100 safety score and ` +
-                    `${d.licenseCategory} license — ${licenseMatch === 1 ? 'ideal' : 'acceptable'} for this ${v.type}.`,
-          });
-        });
+      const res = await fetch(`${API}/ai/dispatch-suggest`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ cargoWeight: Number(cargoWeight) })
       });
 
-      // Sort and take top 3 unique (one per vehicle)
-      const seen = new Set();
-      const top3 = pairs
-        .sort((a, b) => b.score - a.score)
-        .filter(p => {
-          const key = p.vehicle.id + ':' + p.driver.id;
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
-        })
-        .slice(0, 3);
-
-      setAiRankings(top3);
+      const data = await res.json();
+      if (res.ok) {
+        if (data.vehicleId && data.driverId) {
+          const v = vehicles.find(veh => veh.id === data.vehicleId);
+          const d = drivers.find(drv => drv.id === data.driverId);
+          if (v && d) {
+            setAiRankings([{
+              vehicle: v,
+              driver: d,
+              score: 99,
+              reason: data.reason
+            }]);
+          } else {
+            setFormError('AI recommendation contains inactive vehicle/driver.');
+          }
+        } else {
+          setFormError(data.reason || 'No suggestions found.');
+        }
+      } else {
+        setFormError(data.error || 'Failed to fetch AI suggestions.');
+      }
+    } catch (err) {
+      setFormError('Cannot connect to the backend AI service.');
+    } finally {
       setIsAiLoading(false);
-    }, 900);
+    }
   };
 
   const applyRanking = (r) => {
@@ -118,10 +102,10 @@ export default function Trips() {
   };
 
   /* ── Create Trip ─────────────────────────────────────────────── */
-  const handleCreate = (e) => {
+  const handleCreate = async (e) => {
     e.preventDefault();
     setFormError('');
-    const res = createTrip({ source, destination, vehicleId, driverId,
+    const res = await createTrip({ source, destination, vehicleId, driverId,
       cargoWeight: Number(cargoWeight), plannedDistance: Number(plannedDistance) });
     if (res.success) {
       success('Trip Created', `Route ${source} → ${destination} saved as Draft.`);
@@ -135,8 +119,8 @@ export default function Trips() {
   };
 
   /* ── Dispatch ───────────────────────────────────────────────── */
-  const handleDispatch = (tripId) => {
-    const res = dispatchTrip(tripId);
+  const handleDispatch = async (tripId) => {
+    const res = await dispatchTrip(tripId);
     if (res.success) {
       const t = trips.find(t => t.id === tripId);
       success('Trip Dispatched', `Route ${t?.source} → ${t?.destination} is now en route.`);
@@ -155,9 +139,9 @@ export default function Trips() {
     setIsCompleteOpen(true);
   };
 
-  const handleComplete = (e) => {
+  const handleComplete = async (e) => {
     e.preventDefault();
-    const res = completeTrip(selectedTripId, Number(actualDistance), Number(fuelConsumed));
+    const res = await completeTrip(selectedTripId, Number(actualDistance), Number(fuelConsumed));
     if (res.success) {
       success('Trip Completed', 'Vehicle and driver are now Available again.');
       setIsCompleteOpen(false);
@@ -167,8 +151,8 @@ export default function Trips() {
   };
 
   /* ── Cancel ─────────────────────────────────────────────────── */
-  const handleCancel = (tripId) => {
-    const res = cancelTrip(tripId);
+  const handleCancel = async (tripId) => {
+    const res = await cancelTrip(tripId);
     if (res.success) {
       warning('Trip Cancelled', 'Vehicle and driver statuses have been restored.');
     } else {
