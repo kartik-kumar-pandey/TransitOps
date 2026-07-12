@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@600&display=swap');
+
+/* Optional wrapper just to demonstrate the panel on the page background context */
+.kpi-strip-wrapper {
+  background-color: #F7F8FA;
+  padding: 16px 0;
+  width: 100%;
+}
+
+.kpi-strip {
+  display: flex;
+  background-color: #FFFFFF;
+  border-top: 1px solid #E1E5EB;
+  border-bottom: 1px solid #E1E5EB;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  width: 100%;
+}
+
+.kpi-strip::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.kpi-segment {
+  flex: 1;
+  min-width: 180px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+  border-right: 1px solid #E1E5EB;
+}
+
+/* Ensure no right border on the absolute last segment to maintain the single strip look */
+.kpi-segment:last-child {
+  border-right: none;
+}
+
+.kpi-value {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+/* Token Colors */
+.kpi-color-ink { color: #14181F; }
+.kpi-color-teal { color: #0E9E7A; }
+.kpi-color-amber { color: #E8940C; }
+.kpi-color-coral { color: #E8503A; }
+
+.kpi-label {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6B7480;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
