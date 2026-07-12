@@ -17,7 +17,10 @@ const INITIAL_DRIVERS = [
 ];
 
 const INITIAL_TRIPS = [
-  { id: 't1', source: 'Chicago Hub', destination: 'Detroit Depot', vehicleId: 'v1', driverId: 'd1', cargoWeight: 800, plannedDistance: 280, actualDistance: null, fuelConsumed: null, status: 'Draft', dispatchedAt: null, completedAt: null, createdAt: '2026-07-10T10:00:00Z' }
+  { id: 't1', source: 'Chicago Hub', destination: 'Detroit Depot', vehicleId: 'v1', driverId: 'd1', cargoWeight: 800, plannedDistance: 280, actualDistance: null, fuelConsumed: null, status: 'Draft', dispatchedAt: null, completedAt: null, createdAt: '2026-07-10T10:00:00Z' },
+  { id: 't2', source: 'New York Hub', destination: 'Boston Depot', vehicleId: 'v1', driverId: 'd1', cargoWeight: 750, plannedDistance: 350, actualDistance: 350, fuelConsumed: 32, status: 'Completed', dispatchedAt: '2026-07-11T09:00:00Z', completedAt: '2026-07-11T13:00:00Z', createdAt: '2026-07-11T08:00:00Z' },
+  { id: 't3', source: 'Los Angeles', destination: 'San Francisco', vehicleId: 'v2', driverId: 'd2', cargoWeight: 900, plannedDistance: 610, actualDistance: 615, fuelConsumed: 55, status: 'Completed', dispatchedAt: '2026-07-10T08:00:00Z', completedAt: '2026-07-10T15:00:00Z', createdAt: '2026-07-10T07:00:00Z' },
+  { id: 't4', source: 'Dallas Depot', destination: 'Houston Hub', vehicleId: 'v3', driverId: 'd4', cargoWeight: 3000, plannedDistance: 390, actualDistance: 390, fuelConsumed: 60, status: 'Completed', dispatchedAt: '2026-07-09T10:00:00Z', completedAt: '2026-07-09T14:00:00Z', createdAt: '2026-07-09T09:00:00Z' }
 ];
 
 const INITIAL_MAINTENANCE = [
@@ -25,13 +28,14 @@ const INITIAL_MAINTENANCE = [
 ];
 
 const INITIAL_FUEL_LOGS = [
-  { id: 'f1', vehicleId: 'v1', tripId: null, liters: 45, cost: 94.5, date: '2026-07-09' },
-  { id: 'f2', vehicleId: 'v2', tripId: null, liters: 50, cost: 110.0, date: '2026-07-10' }
+  { id: 'f1', vehicleId: 'v1', tripId: 't2', liters: 32, cost: 67.2, date: '2026-07-11' },
+  { id: 'f2', vehicleId: 'v2', tripId: 't3', liters: 55, cost: 115.5, date: '2026-07-10' },
+  { id: 'f3', vehicleId: 'v3', tripId: 't4', liters: 60, cost: 126.0, date: '2026-07-09' }
 ];
 
 const INITIAL_EXPENSES = [
   { id: 'e1', vehicleId: 'v1', type: 'Toll', amount: 15.0, date: '2026-07-09', description: 'I-90 Expressway Toll' },
-  { id: 'e2', vehicleId: 'v3', type: 'Other', amount: 1200.0, date: '2026-07-11', description: 'Maintenance Log Cost' } // Auto-generated expense
+  { id: 'e2', vehicleId: 'v3', type: 'Other', amount: 1200.0, date: '2026-07-11', description: 'Maintenance Log Cost: Scheduled 100k transmission service' }
 ];
 
 export function MockDataProvider({ children }) {
