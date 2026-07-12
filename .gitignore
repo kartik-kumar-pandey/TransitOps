@@ -1,0 +1,5 @@
+node_modules
+TransitOps Smart Transport Operations Platform.pdf
+.env
+dist/
+*.log
