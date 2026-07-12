@@ -16,7 +16,7 @@ export default function Login() {
 
     const res = login(email, password);
     if (res.success) {
-      navigate('/');
+      navigate('/dashboard');
     } else {
       setError(res.error);
     }
@@ -26,7 +26,7 @@ export default function Login() {
     setError('');
     const res = login(userEmail, 'password');
     if (res.success) {
-      navigate('/');
+      navigate('/dashboard');
     } else {
       setError(res.error);
     }

@@ -16,7 +16,7 @@ export default function Layout({ children }) {
   const handleLogout = () => { logout(); navigate('/login'); };
 
   const navItems = [
-    { label: 'Dashboard',          path: '/',            icon: LayoutDashboard, roles: ['fleet_manager','driver','safety_officer','financial_analyst'] },
+    { label: 'Dashboard',          path: '/dashboard',   icon: LayoutDashboard, roles: ['fleet_manager','driver','safety_officer','financial_analyst'] },
     { label: 'Vehicles',           path: '/vehicles',    icon: Truck,           roles: ['fleet_manager','driver','safety_officer','financial_analyst'] },
     { label: 'Drivers',            path: '/drivers',     icon: Users,           roles: ['fleet_manager','safety_officer'] },
     { label: 'Trips',              path: '/trips',       icon: Route,           roles: ['fleet_manager','driver'] },
@@ -75,13 +75,15 @@ export default function Layout({ children }) {
               <Link
                 key={item.path}
                 to={item.path}
-                style={{ animationDelay: `${i * 40}ms` }}
+                style={{
+                  animationDelay: `${i * 40}ms`,
+                  color: isActive ? undefined : 'var(--text-secondary)'
+                }}
                 className={`flex items-center px-4 py-3 rounded-xl transition-all duration-200 group text-sm font-medium animate-slide-left ${
                   isActive
                     ? 'bg-violet-600/20 text-violet-400 border-l-4 border-violet-500 pl-3'
                     : 'hover:bg-white/5'
                 }`}
-                style={{ color: isActive ? undefined : 'var(--text-secondary)' }}
               >
                 <Icon className={`h-5 w-5 mr-3 transition-colors ${isActive ? 'text-violet-400' : ''}`} />
                 {item.label}
